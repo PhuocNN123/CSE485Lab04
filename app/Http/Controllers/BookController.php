@@ -12,8 +12,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::paginate(5); 
-        return view('books.index', compact('books'));
+      
     }
 
     /**
@@ -21,7 +20,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('books.create');
+      
     }
 
     /**
@@ -29,16 +28,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'category' => 'required|string|max:100',
-            'year' => 'required|integer|min:1900|max:'.date('Y'),
-            'quantity' => 'required|integer|min:1',
-        ]);
-        Book::create($request->all()); 
-        // Điều hướng sau khi lưu
-        return redirect()->route('books.index')->with('success', 'Sách đã được thêm thành công!');
+       
     }
 
     /**

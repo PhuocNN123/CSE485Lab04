@@ -6,5 +6,5 @@ Route::get('/', function () {
     return view('readers.App');
 });
 
-Route::resource('readers', ReaderController::class);
+
 

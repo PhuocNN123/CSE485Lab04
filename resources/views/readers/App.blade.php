@@ -22,6 +22,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('readers.create') }}">Thêm mới</a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('books.index') }}">Book</a>
+                    </li>
+                    
                 </ul>
             </div>
         </div>

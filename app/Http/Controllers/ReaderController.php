@@ -47,4 +47,53 @@ class ReaderController extends Controller
 
         return redirect()->route('readers.index')->with('success', 'Reader created successfully.');
     }
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $reader = Reader::find($id);
+        return view('readers.show', compact('reader'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $reader = Reader::find($id);
+        return view('readers.edit', compact('reader'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'birthday' => 'required|date_format:d/m/Y',
+            'address' => 'required',
+            'phone' => 'required|string|max:20',
+        ]);
+        $reader = Reader::find($id);
+        $birthday = Carbon::createFromFormat('d/m/Y', $request->input('birthday'))->format('Y-m-d');
+        $reader->update([ 'name' => $validatedData['name'],
+                          'birthday' => Carbon::createFromFormat('d/m/Y', $validatedData['birthday'])->format('Y-m-d'),
+                          'address' => $validatedData['address'],
+                          'phone' => $validatedData['phone'],
+        ]);
+        return redirect()->route('readers.index')->with('success', 'Reader updated successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $reader = Reader::find($id);
+        $reader->delete();
+
+        return redirect()->route('readers.index')->with('success', 'Reader deleted successfully.');
+    }
 }

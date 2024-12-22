@@ -3,41 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
+use Illuminate\Support\Facades\DB;
 
-class BorrowController extends Controller
+class BookController extends Controller
 {
-    public function index()
-    {
-        return view('borrows.index');
-    }
-
-    public function create()
-    {
-        return view('borrows.create');
-    }
-
-    public function store(Request $request)
-    {
-        // Lưu borrow mới
-    }
-
-    public function show($id)
-    {
-        return view('borrows.show');
-    }
-
-    public function edit($id)
-    {
-        return view('borrows.edit');
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Cập nhật borrow
-    }
-
-    public function destroy($id)
-    {
-        // Xóa borrow
-    }
+    // Các phương thức bên dưới không bị ảnh hưởng
 }

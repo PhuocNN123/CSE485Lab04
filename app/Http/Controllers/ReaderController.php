@@ -1,42 +1,50 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\Reader;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReaderController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return view('readers.index');
+        // Kết hợp chức năng của cả hai nhánh
+        $readers = Reader::paginate(5);
+        return view('readers.index', compact('readers'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return view('readers.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        // Lưu reader mới
-    }
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'birthday' => 'required|date_format:d/m/Y',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
 
-    public function show($id)
-    {
-        return view('readers.show');
-    }
+        Reader::create([
+            'name' => $validatedData['name'],
+            'birthday' => Carbon::createFromFormat('d/m/Y', $validatedData['birthday'])->format('Y-m-d'),
+            'address' => $validatedData['address'],
+            'phone' => $validatedData['phone'],
+        ]);
 
-    public function edit($id)
-    {
-        return view('readers.edit');
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Cập nhật reader
-    }
-
-    public function destroy($id)
-    {
-        // Xóa reader
+        return redirect()->route('readers.index')->with('success', 'Reader created successfully.');
     }
 }

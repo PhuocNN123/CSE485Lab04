@@ -12,19 +12,16 @@ class BorrowController extends Controller
      */
     public function index()
     {
-        // Paginate the borrows list with 5 items per page
-        $borrows = Borrow::paginate(5);
-        
-        // Return the index view with the paginated borrows
+        $borrows = Borrow::paginate(5); 
         return view('borrows.index', compact('borrows'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        // Return the create view
         return view('borrows.create');
     }
 
@@ -33,19 +30,7 @@ class BorrowController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'reader_id' => 'required|integer',
-            'book_id' => 'required|integer',
-            'borrow_date' => 'required|date',
-            'return_date' => 'nullable|date',
-        ]);
-
-        // Create a new borrow record
-        Borrow::create($request->all());
-
-        // Redirect to the index page with a success message
-        return redirect()->route('borrows.index')->with('success', 'Borrow record created successfully.');
+        //
     }
 
     /**
@@ -53,16 +38,47 @@ class BorrowController extends Controller
      */
     public function show($readerId)
     {
-        // Retrieve the borrow history for a specific reader with related book information
+        // Lấy danh sách mượn trả sách của độc giả
         $borrows = Borrow::where('reader_id', $readerId)
-            ->with('book')
+            ->with('book') // Tải thông tin sách liên quan
             ->get();
-
-        // Return the show view with the borrows data
+    
+        // Trả về view hiển thị lịch sử mượn trả sách
         return view('borrows.show', compact('borrows'));
     }
+    
+    
 
-    /**
-     * Other methods can be added here (edit, update, destroy, etc.) as needed.
-     */
+    public function edit(string $id)
+    {
+        $borrow = Borrow::find($id);
+        return view('borrows.edit', compact('borrow'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        // Tìm mượn sách theo ID
+        $borrow = Borrow::find($id);
+    
+        if (!$borrow) {
+            return redirect()->route('borrows.index')->with('error', 'Mượn sách không tồn tại.');
+        }
+    
+        $borrow->status = $request->status; //(0: Đang mượn, 1: Đã trả)
+        
+        // Nếu có ngày trả, cập nhật ngày trả, nếu không sẽ để giá trị mặc định
+        if ($request->status == 1 && $request->return_date) {
+            $borrow->return_date = $request->return_date; 
+        }
+    
+        $borrow->save();
+    
+        return redirect()->route('borrows.index')->with('success', 'Trạng thái mượn sách đã được cập nhật.');
+    }
+    
+
+    public function destroy(string $id)
+    {
+        //
+    }
 }

@@ -22,7 +22,7 @@ class BorrowController extends Controller
      */
     public function create()
     {
-        //
+        return view('borrows.create');
     }
 
     /**
@@ -41,25 +41,34 @@ class BorrowController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $borrow = Borrow::find($id);
+        return view('borrows.edit', compact('borrow'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        // Tìm mượn sách theo ID
+        $borrow = Borrow::find($id);
+    
+        if (!$borrow) {
+            return redirect()->route('borrows.index')->with('error', 'Mượn sách không tồn tại.');
+        }
+    
+        $borrow->status = $request->status; //(0: Đang mượn, 1: Đã trả)
+        
+        // Nếu có ngày trả, cập nhật ngày trả, nếu không sẽ để giá trị mặc định
+        if ($request->status == 1 && $request->return_date) {
+            $borrow->return_date = $request->return_date; 
+        }
+    
+        $borrow->save();
+    
+        return redirect()->route('borrows.index')->with('success', 'Trạng thái mượn sách đã được cập nhật.');
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

@@ -9,7 +9,6 @@
 @section('content')
     <div class="container mt-5">
         <h1 class="mb-4">Danh sách Mượn sách</h1>
-        <a href="{{ route('borrows.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
         <table class="table table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
@@ -40,7 +39,7 @@
                         <td>
                             <div class="d-flex gap-2">
                                 <a href="{{ route('borrows.show', $borrow->id) }}" class="btn btn-info">Xem</a>
-                                <a href="{{ route('borrows.edit', $borrow->id) }}" class="btn btn-warning">Sửa</a>
+                                <a href="{{ route('borrows.edit', $borrow->id) }}" class="btn btn-warning">Sửa trạng thái</a>
                                 <form action="{{ route('borrows.destroy', $borrow->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')

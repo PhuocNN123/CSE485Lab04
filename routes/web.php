@@ -6,9 +6,13 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowController;
 
 Route::get('/', function () {
-    return view('viewbooks.App'); // Hoặc 'viewbooks.app' nếu bạn muốn hiển thị giao diện của viewbooks
+    return view('viewbooks.App'); 
 });
 
 Route::resource('books', BookController::class);
 Route::resource('readers', ReaderController::class);
 Route::resource('borrows', BorrowController::class);
+
+// Thêm các route cập nhật trạng thái mượn sách
+Route::get('/borrows/{borrow}/editStatus', [BorrowController::class, 'editStatus'])->name('borrows.editStatus');
+Route::put('/borrows/{borrow}/updateStatus', [BorrowController::class, 'updateStatus'])->name('borrows.updateStatus');

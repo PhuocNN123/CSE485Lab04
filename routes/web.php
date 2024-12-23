@@ -16,3 +16,5 @@ Route::resource('borrows', BorrowController::class);
 // Thêm các route cập nhật trạng thái mượn sách
 Route::get('/borrows/{borrow}/editStatus', [BorrowController::class, 'editStatus'])->name('borrows.editStatus');
 Route::put('/borrows/{borrow}/updateStatus', [BorrowController::class, 'updateStatus'])->name('borrows.updateStatus');
+
+Route::get('/borrows/reader/{reader}', [BorrowController::class, 'show'])->name('borrows.show');

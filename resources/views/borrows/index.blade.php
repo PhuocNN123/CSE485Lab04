@@ -38,8 +38,8 @@
                         </td>
                         <td>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('borrows.show', $borrow->id) }}" class="btn btn-info">Xem</a>
-                                <a href="{{ route('borrows.edit', $borrow->id) }}" class="btn btn-warning">Sửa trạng thái</a>
+                            <a href="{{ route('borrows.show', $borrow->reader_id) }}" class="btn btn-info">Xem</a>
+                            <a href="{{ route('borrows.edit', $borrow->id) }}" class="btn btn-warning">Sửa trạng thái</a>
                                 <form action="{{ route('borrows.destroy', $borrow->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')

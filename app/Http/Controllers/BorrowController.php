@@ -36,10 +36,18 @@ class BorrowController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($readerId)
     {
-        //
+        // Lấy danh sách mượn trả sách của độc giả
+        $borrows = Borrow::where('reader_id', $readerId)
+            ->with('book') // Tải thông tin sách liên quan
+            ->get();
+    
+        // Trả về view hiển thị lịch sử mượn trả sách
+        return view('borrows.show', compact('borrows'));
     }
+    
+    
 
     public function edit(string $id)
     {
